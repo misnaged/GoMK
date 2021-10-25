@@ -2,7 +2,7 @@
 
 ## What is it about?
 GoMK is a MortalKombat2 implementation written in Goland.
-* Lots of thing to do!
+* Lots of things to do!
 
 
 ## How to run?
