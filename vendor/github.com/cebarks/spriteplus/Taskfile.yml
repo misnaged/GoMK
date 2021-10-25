@@ -1,0 +1,28 @@
+# https://taskfile.dev
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - task -l
+    silent: true
+
+  test:
+    desc: run all tests
+    cmds:
+      - go test ./...
+
+  testv:
+    desc: run all tests verbosely (with coverage)
+    cmds:
+      - go test ./... -cover -covermode atomic -v
+
+  todo:
+    desc: find all //TODO comments in the repo
+    cmds:
+      - grep -nr --exclude="Taskfile.yml" --exclude-dir=".git" "//TODO" .
+
+  build:
+    desc: build the util binary
+    cmds:
+      - go build -o bin/spriteutil ./cmd/spriteutil
