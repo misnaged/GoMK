@@ -15,14 +15,14 @@ type IFigther interface {
 	BuildSprites(sprites []*pixel.Sprite) ([]*pixel.Sprite)
 	BuildAnimation(frames int) (anim *spriteplus.Animation, err error)
 }
+*/
 
- */
 // Fighter is a basic structure for MK's fighter
 // All fighters should `inherit` this struct
 type Fighter struct {
-	Pics    []pixel.Picture
-	Sprites []*pixel.Sprite
-	Anim *spriteplus.Animation
+	Pics     []pixel.Picture
+	Sprites  []*pixel.Sprite
+	Anim     *spriteplus.Animation
 	Pathpics []string
 }
 
@@ -31,7 +31,7 @@ type Fighter struct {
 // to be used in BuildSprites method
 func (f *Fighter) BuildPics() (pics []pixel.Picture) {
 	for _, p := range f.Pathpics {
-	pic, err := LoadPicture(p)
+		pic, err := LoadPicture(p)
 		if err != nil {
 			panic(err)
 		}
@@ -39,6 +39,7 @@ func (f *Fighter) BuildPics() (pics []pixel.Picture) {
 	}
 	return pics
 }
+
 // BuildSprites method is gathering the data([]pixel.Picture) from Pics method
 // and `building` []*pixel.Sprite slice
 // to be finally used in our BuildAnimation method
@@ -66,9 +67,8 @@ func LoadPicture(path string) (pixel.Picture, error) {
 }
 
 // BuildAnimation method gets sprites array and builds proper animation
-func (f *Fighter) BuildAnimation(frames int) (anim *spriteplus.Animation, err error){
+func (f *Fighter) BuildAnimation(frames int) (anim *spriteplus.Animation, err error) {
 	anim = f.Anim
 	anim, err = spriteplus.MakeAnimation(f.BuildSprites(), frames)
 	return anim, nil
 }
-
