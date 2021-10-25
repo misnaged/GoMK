@@ -1,4 +1,7 @@
 package models
+/*
+
+//TODO Currently it's not using
 
 import (
 	"GoMK/internal/service"
@@ -18,5 +21,4 @@ func (sz *SubZero) Idle() (idle *spriteplus.Animation, err error){
 	}
 	return idle, nil
 }
-
-
+ */
