@@ -27,7 +27,6 @@ func (ba *Animation) Next() {
 //Draw draws the current sprite to the given target and updates
 func (ba *Animation) Draw(target pixel.Target, mat pixel.Matrix) {
 	ba.sprites[ba.currentSpriteIndex].Draw(target, mat)
-
 	if ba.drawCount++; ba.drawCount >= ba.frameLength {
 		ba.drawCount = 0
 		ba.Next()
