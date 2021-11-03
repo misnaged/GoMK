@@ -37,7 +37,7 @@ func (f *Fighter) BuildPics() (pics []pixel.Picture) {
 		}
 		pics = append(pics, pic)
 	}
-	return pics
+	return
 }
 
 // BuildSprites method is gathering the data([]pixel.Picture) from Pics method
