@@ -17,4 +17,4 @@ Authors of `spriteplus` -  https://github.com/cebarks/spriteplus
 
 Authors of Mortal Kombat game series
 
-## All rights of visual content belongs to Warner Bros. Interactive Entertainment 
+## All rights of visual content belong to Warner Bros. Interactive Entertainment 
