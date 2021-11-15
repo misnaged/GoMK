@@ -9,7 +9,7 @@ import (
 //Animation is a series of sprites that change after a certain number of frames in sequential order
 type Animation struct {
 	sprites            []*pixel.Sprite
-	currentSpriteIndex int
+	CurrentSpriteIndex int
 
 	//frameLength is the number of times Update() is called before the animation moves to the next sprite
 	frameLength int
@@ -19,14 +19,14 @@ type Animation struct {
 
 //Next force updates the animation to the next frame.
 func (ba *Animation) Next() {
-	if ba.currentSpriteIndex++; ba.currentSpriteIndex >= len(ba.sprites) {
-		ba.currentSpriteIndex = 0
+	if ba.CurrentSpriteIndex++; ba.CurrentSpriteIndex >= len(ba.sprites) {
+		ba.CurrentSpriteIndex = 0
 	}
 }
 
 //Draw draws the current sprite to the given target and updates
 func (ba *Animation) Draw(target pixel.Target, mat pixel.Matrix) {
-	ba.sprites[ba.currentSpriteIndex].Draw(target, mat)
+	ba.sprites[ba.CurrentSpriteIndex].Draw(target, mat)
 
 	if ba.drawCount++; ba.drawCount >= ba.frameLength {
 		ba.drawCount = 0
@@ -46,7 +46,7 @@ func MakeAnimation(sprites []*pixel.Sprite, frameLength int) (*Animation, error)
 		sprites:            sprites,
 		drawCount:          0,
 		frameLength:        frameLength,
-		currentSpriteIndex: 0,
+		CurrentSpriteIndex: 0,
 	}, nil
 }
 
