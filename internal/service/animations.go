@@ -33,6 +33,12 @@ type Anim struct {
 	Pathpics   []string
 }
 
+func (f *Anim) GatherPics(pics []string) (ppics []string) {
+	pics = ppics
+	ppics = f.Pathpics
+	return
+}
+
 // BuildPics method is used to collect picture paths
 // and combine them into []pixel.Picture slice
 // to be used in BuildSprites method

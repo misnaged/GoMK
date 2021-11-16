@@ -15,6 +15,7 @@ var idlepics = []string{"sz/idle/02.png", "sz/idle/03.png", "sz/idle/04.png", "s
 var movepics = []string{"sz/move/01.png", "sz/move/02.png", "sz/move/03.png", "sz/move/04.png", "sz/move/05.png", "sz/move/06.png", "sz/move/07.png", "sz/move/08.png", "sz/move/09.png"}
 
 func (sz *SubZero) Idle() (idle *spriteplus.Animation, err error) {
+	sz.anim.Pathpics = idlepics
 	idle, err = sz.anim.BuildAnimation(77)
 	if err != nil {
 		return nil, fmt.Errorf("animation Idle failed due to: %v", err)
@@ -25,6 +26,8 @@ func (sz *SubZero) Idle() (idle *spriteplus.Animation, err error) {
 }
 
 func (sz *SubZero) HighKick() (hgkick *spriteplus.Animation, err error) {
+	sz.anim.Pathpics = highkickpics
+
 	hgkick, err = sz.anim.BuildAnimation(45)
 	if err != nil {
 		return nil, fmt.Errorf("animation HighKick failed due to: %v", err)
@@ -34,6 +37,8 @@ func (sz *SubZero) HighKick() (hgkick *spriteplus.Animation, err error) {
 	return hgkick, nil
 }
 func (sz *SubZero) Move() (move *spriteplus.Animation, err error) {
+	sz.anim.Pathpics = movepics
+
 	move, err = sz.anim.BuildAnimation(40)
 	if err != nil {
 		return nil, fmt.Errorf("animation Move failed due to: %v", err)
