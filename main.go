@@ -99,10 +99,14 @@ func run() {
 
 		sprite.Draw(win, pixel.IM.Scaled(pixel.ZV, 3.5).Moved(win.Bounds().Center()))
 		//win.SwapBuffers()
-		colleft := player1col.DetectCollision(player1col.Collider, wallleft)
-		colright := player1col.DetectCollision(player1col.Collider, wallright)
-		pl2colleft := player2col.DetectCollision(player2col.Collider, wallleft)
-		pl2collright := player2col.DetectCollision(player2col.Collider, wallright)
+		colleft := player1col.DetectCollision(player1col.Collider, wallleft)   // left limits for player 1
+		colright := player1col.DetectCollision(player1col.Collider, wallright) // right limits for player 1
+
+		pl2colleft := player2col.DetectCollision(player2col.Collider, wallleft)    // left limits for player 2
+		pl2collright := player2col.DetectCollision(player2col.Collider, wallright) // right limits for player 2
+
+		pl1pl2 := player1col.DetectCollision(player1col.Collider, player2col.Collider)
+		pl2pl1 := player2col.DetectCollision(player2col.Collider, player1col.Collider)
 
 		if win.JustPressed(pixelgl.KeyR) {
 			kick.CurrentSpriteIndex = 0
@@ -206,7 +210,7 @@ func run() {
 		if SwitchMoveFw == true {
 
 			movefw.Draw(win, pixel.IM.Scaled(mv, 1.5).Moved(win.GetPos().Add(mv)))
-			if !colright {
+			if !colright && !pl1pl2 {
 				mv.X += 0.6
 				player1col.Collider.A.X += 0.6
 				player1col.Collider.B.X += 0.6
@@ -225,7 +229,7 @@ func run() {
 		if SwitchJaxMoveFw == true {
 
 			movejaxfw.Draw(win, pixel.IM.Scaled(zv, 1.5).Moved(win.GetPos().Add(zv)))
-			if !pl2colleft {
+			if !pl2colleft && !pl2pl1 {
 				zv.X -= 0.6
 				player2col.Collider.A.X -= 0.6
 				player2col.Collider.B.X -= 0.6
