@@ -27,6 +27,9 @@ github.com/go-gl/glfw/v3.3/glfw/glfw/src
 github.com/go-gl/mathgl/mgl32
 # github.com/pkg/errors v0.9.1
 github.com/pkg/errors
+# github.com/pkg/profile v1.6.0
+## explicit
+github.com/pkg/profile
 # github.com/pzsz/voronoi v0.0.0-20130609164533-4314be88c79f
 github.com/pzsz/voronoi
 # golang.org/x/image v0.0.0-20211028202545-6944b10bf410
