@@ -3,7 +3,7 @@ package models
 import (
 	"GoMK/internal/service"
 	"fmt"
-	"github.com/cebarks/spriteplus"
+	"github.com/Misnaged/spriteplus"
 )
 
 type SubZero struct {

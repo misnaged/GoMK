@@ -2,7 +2,7 @@ package service
 
 import (
 	"fmt"
-	"github.com/cebarks/spriteplus"
+	"github.com/Misnaged/spriteplus"
 	"github.com/faiface/pixel"
 	"image"
 	"os"
