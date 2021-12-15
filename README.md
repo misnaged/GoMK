@@ -1,7 +1,7 @@
 # GoMK
 
 ## What is it about?
-GoMK is a MortalKombat2 implementation written in Goland.
+GoMK is a MortalKombat2 implementation written in Golang.
 * Lots of things to do!
 
 
