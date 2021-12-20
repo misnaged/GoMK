@@ -65,7 +65,7 @@ func (f *Anim) BuildSprites() (sprites []*pixel.Sprite) {
 	return
 }
 
-// LoadPicture load anim with path given
+//LoadPicture load anim with path given
 func LoadPicture(path string) (pixel.Picture, error) {
 	file, err := os.Open(path)
 	if err != nil {
