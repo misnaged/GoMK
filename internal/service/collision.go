@@ -28,7 +28,7 @@ func (c *Collider) ExpandLineCollider(h pixel.Line) {
 
 }
 
-// DetectBoxCollision is a trigger which reacts when 1 line intersect another
+// DetectBoxCollision is a trigger which reacts when 1 rect shape intersect another
 func (c *Collider) DetectBoxCollision(collider, collidee pixel.Rect) (collided bool) {
 	collider = c.Box
 
