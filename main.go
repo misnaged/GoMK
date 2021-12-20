@@ -147,9 +147,6 @@ func run() {
 
 		boxCollision := player1col.DetectBoxCollision(player1col.Box, player2col.Box)
 
-		if boxCollision {
-			fmt.Println("box collision!")
-		}
 		if win.JustPressed(pixelgl.KeyR) {
 			kick.CurrentSpriteIndex = 0
 			SwitchHighKick = true

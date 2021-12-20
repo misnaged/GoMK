@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"github.com/faiface/pixel"
 	"time"
 )
@@ -35,7 +34,6 @@ func (c *Collider) DetectBoxCollision(collider, collidee pixel.Rect) (collided b
 	ok := collider.Intersects(collidee)
 	if ok {
 		collided = true
-		fmt.Println("CALAIDA!")
 	}
 	return collided
 }
