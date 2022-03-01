@@ -5,7 +5,6 @@ go 1.17
 require (
 	github.com/Misnaged/spriteplus v0.5.4-0.20211210064010-4aa5fa2f1358
 	github.com/faiface/pixel v0.10.0
-	golang.org/x/image v0.0.0-20210607152325-775e3b0c77b9
 )
 
 require (
@@ -17,5 +16,6 @@ require (
 	github.com/go-gl/mathgl v1.0.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pzsz/voronoi v0.0.0-20130609164533-4314be88c79f // indirect
+	golang.org/x/image v0.0.0-20210607152325-775e3b0c77b9 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
