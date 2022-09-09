@@ -12,10 +12,6 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
-var (
-	idling, moving bool
-)
-
 type Game struct {
 	subzira models.Subzero
 }
@@ -23,15 +19,14 @@ type Game struct {
 func (g *Game) Update() error {
 	g.subzira.Subzero.FramesCount++
 	if g.Push() {
-		idling = false
-		moving = true
+		g.subzira.Subzero.Idling = false
+		g.subzira.Subzero.Moving = true
 	}
 	if g.Push2() {
-		moving = false
-		idling = true
+		g.subzira.Subzero.Moving = false
+		g.subzira.Subzero.Idling = true
 	}
 	if g.Push3() {
-
 		fmt.Println(g.subzira.Subzero.X0, g.subzira.Subzero.X1, g.subzira.Subzero.Y0, g.subzira.Subzero.Y1, g.subzira.Subzero.FrameNum)
 	}
 	return nil
@@ -45,7 +40,8 @@ func (g *Game) SubzeroIdle(screen *ebiten.Image) error {
 	return nil
 }
 func (g *Game) SubzeroMove(screen *ebiten.Image) error {
-	err := g.subzira.SubzeroMvFw(screen)
+	_ = g.subzira.SubzeroMvFw(screen)
+	err := g.subzira.Subzero.Move(screen)
 	if err != nil {
 		return fmt.Errorf("error while creating sub-zero %w", err)
 	}
@@ -75,13 +71,13 @@ func (g *Game) Push3() bool {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	if idling {
+	if g.subzira.Subzero.Idling {
 		err := g.SubzeroIdle(screen)
 		if err != nil {
 			panic(err)
 		}
 	}
-	if moving {
+	if g.subzira.Subzero.Moving {
 		err := g.SubzeroMove(screen)
 		if err != nil {
 			panic(err)

@@ -37,7 +37,7 @@ func (g *Subzero) SubzeroMvFw(screen *ebiten.Image) error {
 		frameOY     = 0
 		frameWidth  = 82
 		frameHeight = 150
-		frameNum    = 11
+		frameNum    = 9
 	)
 	g.Subzero.X0, g.Subzero.X1, g.Subzero.Y0, g.Subzero.Y1, g.Subzero.FrameNum = frameOX, frameWidth, frameOY, frameHeight, frameNum
 

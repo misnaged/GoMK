@@ -17,6 +17,7 @@ type Img struct {
 	ImgBytes              []byte
 	Rect                  image.Rectangle
 	X0, X1, Y0, Y1        int
+	Idling, Moving        bool
 }
 
 //type Position struct {
@@ -51,6 +52,26 @@ func (img *Img) DrawFighter(screen *ebiten.Image) error {
 		return fmt.Errorf("error while preparing image %w", err)
 	}
 	screen.DrawImage(fighter.SubImage(img.Rect).(*ebiten.Image), op)
+	return nil
+}
+func (img *Img) Move(screen *ebiten.Image) error {
+	screen.Clear()
+	op := &ebiten.DrawImageOptions{}
+	if img.Moving {
+
+		op.GeoM.Translate(-float64(img.X1)/2, -float64(img.Y1)+float64(1+1))
+		op.GeoM.Translate(ScreenWidth/2, ScreenHeight/2)
+
+		i := (img.FramesCount / 5) % img.FrameNum
+		sx, sy := img.X0+i*img.X1, img.Y0
+		img.Rect = image.Rect(sx, sy, sx+img.X1, sy+img.Y1)
+		fighter, err := img.PrepareImg()
+		if err != nil {
+			return fmt.Errorf("error while preparing image %w", err)
+		}
+
+		screen.DrawImage(fighter.SubImage(img.Rect).(*ebiten.Image), op)
+	}
 	return nil
 }
 
