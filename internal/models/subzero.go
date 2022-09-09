@@ -43,7 +43,7 @@ func (g *Subzero) SubzeroMvFw(screen *ebiten.Image) error {
 
 	//
 	g.Subzero.ImgBytes = sz.SubzeroMove
-	err := g.Subzero.DrawFighter(screen)
+	err := g.Subzero.Move(screen)
 	if err != nil {
 		return fmt.Errorf("error while creating sub-zero %w", err)
 	}

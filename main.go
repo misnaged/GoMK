@@ -40,8 +40,7 @@ func (g *Game) SubzeroIdle(screen *ebiten.Image) error {
 	return nil
 }
 func (g *Game) SubzeroMove(screen *ebiten.Image) error {
-	_ = g.subzira.SubzeroMvFw(screen)
-	err := g.subzira.Subzero.Move(screen)
+	err := g.subzira.SubzeroMvFw(screen)
 	if err != nil {
 		return fmt.Errorf("error while creating sub-zero %w", err)
 	}

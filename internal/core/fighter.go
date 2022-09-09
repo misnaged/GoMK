@@ -58,10 +58,8 @@ func (img *Img) Move(screen *ebiten.Image) error {
 	screen.Clear()
 	op := &ebiten.DrawImageOptions{}
 	if img.Moving {
-
-		op.GeoM.Translate(-float64(img.X1)/2, -float64(img.Y1)+float64(1+1))
+		op.GeoM.Translate(-float64(img.X1)/2, -float64(img.Y1)/2)
 		op.GeoM.Translate(ScreenWidth/2, ScreenHeight/2)
-
 		i := (img.FramesCount / 5) % img.FrameNum
 		sx, sy := img.X0+i*img.X1, img.Y0
 		img.Rect = image.Rect(sx, sy, sx+img.X1, sy+img.Y1)
@@ -70,7 +68,12 @@ func (img *Img) Move(screen *ebiten.Image) error {
 			return fmt.Errorf("error while preparing image %w", err)
 		}
 
-		screen.DrawImage(fighter.SubImage(img.Rect).(*ebiten.Image), op)
+		for it := 0; it < 10; it++ {
+			img.X0++
+			fmt.Println(img.X0)
+			screen.DrawImage(fighter.SubImage(img.Rect).(*ebiten.Image), op)
+		}
+
 	}
 	return nil
 }
