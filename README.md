@@ -9,8 +9,16 @@ GoMK is a MortalKombat2 implementation written in Golang.
 `go run main.go`
 
 
-
 ## References and my thanks to 
+## ACTUAL_VERSION
+ Authors and contributors of `Ebitengine` - https://github.com/hajimehoshi/ebiten
+
+
+
+
+
+
+## LEGACY_VERSION
 Authors and contributors of `Pixel lib` -  https://github.com/faiface/pixel
 
 Authors of `spriteplus` -  https://github.com/cebarks/spriteplus
