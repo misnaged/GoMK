@@ -1,6 +1,6 @@
 package core
 
 const (
-	ScreenWidth  = 640
-	ScreenHeight = 480
+	ScreenWidth  = 1600
+	ScreenHeight = 900
 )

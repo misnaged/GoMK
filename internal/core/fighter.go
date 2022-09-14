@@ -1,81 +1,97 @@
 package core
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"image"
+	"sync"
 )
 
-//	type Fighter struct {
-//		Img *Img
-//	}
-type Img struct {
-	FigtherImg            *ebiten.Image
-	DrawOpts              *ebiten.DrawImageOptions
-	FrameNum, FramesCount int
-	ImgBytes              []byte
-	Rect                  image.Rectangle
-	X0, X1, Y0, Y1        int
-	Idling, Moving        bool
+func (img *Img) GetSx() (int, int) {
+	i := (img.FramesCount / len(img.animCount)) % img.FrameNum
+	sx, sy := img.X0+i*img.X1, img.Y0-i
+	return sx, sy
 }
 
-//type Position struct {
-//	Rect           image.Rectangle
-//	x0, x1, y0, y1 int
-//}
-
-//	func NewFighter(fighter *Fighter) IFighter{
-//		return fighter
-//	}
-
-// PrepareImg is
-func (img *Img) PrepareImg() (*ebiten.Image, error) {
-	img2prep, _, err := image.Decode(bytes.NewReader(img.ImgBytes))
-	if err != nil {
-		return nil, fmt.Errorf("error while decoding %w", err)
+func (img *Img) SetAnimationFramesLen(num, cap int) {
+	img.animCount = make([]int, num, cap)
+	for i := 0; i <= num; i++ {
+		img.animCount = append(img.animCount, i)
 	}
-	img.FigtherImg = ebiten.NewImageFromImage(img2prep)
-	return img.FigtherImg, nil
+	if num > cap {
+		num = 0
+	}
 }
 
-// DrawFighter is
-func (img *Img) DrawFighter(screen *ebiten.Image) error {
-	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(-float64(img.X1)/2, -float64(img.Y1)/2)
-	op.GeoM.Translate(ScreenWidth/2, ScreenHeight/2)
-	i := (img.FramesCount / 5) % img.FrameNum
-	sx, sy := img.X0+i*img.X1, img.Y0
+var done1, done2 bool
+
+func (img *Img) LpPos() *image.Rectangle {
+	if !done1 {
+		img.DrawOpts.GeoM.Translate(-float64(img.X1)*3.5, -float64(img.Y1)+20.5)
+		img.DrawOpts.GeoM.Translate(ScreenWidth/2, ScreenHeight/1.3)
+	}
+	sx, sy := img.GetSx()
 	img.Rect = image.Rect(sx, sy, sx+img.X1, sy+img.Y1)
+
+	return &img.Rect
+}
+
+func (img *Img) LpIdle(screen *ebiten.Image) error {
+	fighter, err := img.PrepareImg()
+	done2 = true
+	if err != nil {
+		return fmt.Errorf("error while preparing image %w", err)
+	}
+	var wg sync.WaitGroup
+	for range img.animCount {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			subImg := fighter.SubImage(*img.LpPos()).(*ebiten.Image)
+			screen.DrawImage(subImg, &img.DrawOpts)
+			done1 = true
+		}()
+		wg.Wait()
+	}
+	if inpututil.IsKeyJustPressed(ebiten.KeyShift) {
+		fmt.Println(img.Rect)
+	}
+	return nil
+}
+
+func (img *Img) LpMoveFw(screen *ebiten.Image) error {
 	fighter, err := img.PrepareImg()
 	if err != nil {
 		return fmt.Errorf("error while preparing image %w", err)
 	}
-	screen.DrawImage(fighter.SubImage(img.Rect).(*ebiten.Image), op)
+	var wg sync.WaitGroup
+	img.SubZera = fighter.SubImage(*img.LpPos()).(*ebiten.Image)
+	for range img.animCount {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			defer img.SubZera.Clear()
+			img.DrawOpts.GeoM.Translate(3.0/float64(len(img.animCount))*1.5, 0)
+			screen.DrawImage(img.SubZera, &img.DrawOpts)
+		}()
+		wg.Wait()
+	}
+
 	return nil
 }
-func (img *Img) Move(screen *ebiten.Image) error {
-	screen.Clear()
-	op := &ebiten.DrawImageOptions{}
-	if img.Moving {
-		op.GeoM.Translate(-float64(img.X1)/2, -float64(img.Y1)/2)
-		op.GeoM.Translate(ScreenWidth/2, ScreenHeight/2)
-		i := (img.FramesCount / 5) % img.FrameNum
-		sx, sy := img.X0+i*img.X1, img.Y0
-		img.Rect = image.Rect(sx, sy, sx+img.X1, sy+img.Y1)
-		fighter, err := img.PrepareImg()
-		if err != nil {
-			return fmt.Errorf("error while preparing image %w", err)
-		}
 
-		for it := 0; it < 10; it++ {
-			img.X0++
-			fmt.Println(img.X0)
-			screen.DrawImage(fighter.SubImage(img.Rect).(*ebiten.Image), op)
-		}
-
+func (img *Img) RightDirPath() []*image.Point {
+	p1 := &image.Point{
+		X: img.X0 + 1,
+		Y: 0,
 	}
-	return nil
+	p2 := &image.Point{
+		X: img.X0 + 1,
+		Y: 0,
+	}
+	img.Path = append(img.Path, p1, p2)
+	return img.Path
 }
 
 // ----- Position ----- //
@@ -84,3 +100,29 @@ func (img *Img) Move(screen *ebiten.Image) error {
 func (img *Img) GetCurrent() *image.Rectangle {
 	return &img.Rect
 }
+
+/*
+op := &ebiten.DrawImageOptions{}
+op.GeoM.Translate(-float64(img.X1)/2, -float64(img.Y1)/2)
+op.GeoM.Translate(ScreenWidth/2, ScreenHeight/2)
+i := (img.FramesCount / 5) % img.FrameNum
+sx, sy := img.X0+i*img.X1, img.Y0
+img.Rect = image.Rect(img.posX, sy, sx+img.X1, sy+img.Y1)
+fighter, err := img.PrepareImg()
+
+	if err != nil {
+		return fmt.Errorf("error while preparing image %w", err)
+	}
+
+screen.DrawImage(fighter.SubImage(img.Rect).(*ebiten.Image), op)
+
+	if inpututil.IsKeyJustPressed(ebiten.KeyShift) {
+		fmt.Println("posX =", img.posX)
+	}	if inpututil.IsKeyJustPressed(ebiten.KeyShift) {
+
+	fmt.Printf("\n\n\n\n\n\n\n %d \n", len(img.animCount))
+	fmt.Printf("max.x: %v, max.y: %v \n", img.Rect.Max.X, img.Rect.Max.Y)
+	fmt.Printf("min.x: %v, min.y: %v \n", img.Rect.Min.X, img.Rect.Min.Y)
+
+}
+*/

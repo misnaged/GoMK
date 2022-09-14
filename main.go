@@ -3,25 +3,23 @@ package main
 import (
 	"GoMK/internal/core"
 	"GoMK/internal/models"
-
 	"fmt"
-	_ "image/png"
-	"log"
-
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
+	_ "image/png"
+	"log"
 )
 
 type Game struct {
+	keys    []ebiten.Key
 	subzira models.Subzero
+	scene   models.Scene
 }
 
 func (g *Game) Update() error {
+	g.keys = inpututil.AppendPressedKeys(g.keys[:0])
 	g.subzira.Subzero.FramesCount++
-	if g.Push() {
-		g.subzira.Subzero.Idling = false
-		g.subzira.Subzero.Moving = true
-	}
+	g.MoveFw()
 	if g.Push2() {
 		g.subzira.Subzero.Moving = false
 		g.subzira.Subzero.Idling = true
@@ -33,6 +31,7 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) SubzeroIdle(screen *ebiten.Image) error {
+	g.subzira.Init()
 	err := g.subzira.SubzeroIdle(screen)
 	if err != nil {
 		return fmt.Errorf("error while creating sub-zero %w", err)
@@ -47,11 +46,14 @@ func (g *Game) SubzeroMove(screen *ebiten.Image) error {
 	return nil
 }
 
-func (g *Game) Push() bool {
-	if inpututil.IsKeyJustPressed(ebiten.KeySpace) {
-		return true
-	} else {
-		return false
+func (g *Game) MoveFw() {
+	if inpututil.IsKeyJustPressed(ebiten.KeyD) {
+		g.subzira.Subzero.Idling = false
+		g.subzira.Subzero.Moving = true
+	} else if inpututil.IsKeyJustReleased(ebiten.KeyD) {
+		fmt.Println("released")
+		g.subzira.Subzero.Idling = true
+		g.subzira.Subzero.Moving = false
 	}
 }
 func (g *Game) Push2() bool {
@@ -70,6 +72,10 @@ func (g *Game) Push3() bool {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
+	err := g.scene.Screen(screen)
+	if err != nil {
+		panic(err)
+	}
 	if g.subzira.Subzero.Idling {
 		err := g.SubzeroIdle(screen)
 		if err != nil {
@@ -82,7 +88,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			panic(err)
 		}
 	}
-	//screen.Clear()
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
@@ -94,7 +99,8 @@ func main() {
 	// Now the byte slice is generated with //go:generate for Go 1.15 or older.
 	// If you use Go 1.16 or newer, it is strongly recommended to use //go:embed to embed the image file.
 	// See https://pkg.go.dev/embed for more details.
-	ebiten.SetWindowSize(core.ScreenWidth*2, core.ScreenHeight*2)
+
+	ebiten.SetWindowSize(core.ScreenWidth, core.ScreenHeight)
 	ebiten.SetWindowTitle("Animation (Ebiten Demo)")
 	if err := ebiten.RunGame(&Game{}); err != nil {
 		log.Fatal(err)
