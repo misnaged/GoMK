@@ -19,7 +19,7 @@ type Game struct {
 func (g *Game) Update() error {
 	g.keys = inpututil.AppendPressedKeys(g.keys[:0])
 	g.subzira.Subzero.FramesCount++
-	g.MoveFw()
+	g.Move()
 	if g.Push2() {
 		g.subzira.Subzero.Moving = false
 		g.subzira.Subzero.Idling = true
@@ -45,15 +45,36 @@ func (g *Game) SubzeroMove(screen *ebiten.Image) error {
 	}
 	return nil
 }
+func (g *Game) SubzeroMoveBw(screen *ebiten.Image) error {
+	err := g.subzira.SubzeroMvBw(screen)
+	if err != nil {
+		return fmt.Errorf("error while creating sub-zero %w", err)
+	}
+	return nil
+}
 
-func (g *Game) MoveFw() {
+// TODO: Refactor to make it looking good
+
+func (g *Game) Move() {
 	if inpututil.IsKeyJustPressed(ebiten.KeyD) {
 		g.subzira.Subzero.Idling = false
+		g.subzira.Subzero.MovingBw = false
 		g.subzira.Subzero.Moving = true
 	} else if inpututil.IsKeyJustReleased(ebiten.KeyD) {
 		fmt.Println("released")
 		g.subzira.Subzero.Idling = true
+		g.subzira.Subzero.MovingBw = false
 		g.subzira.Subzero.Moving = false
+	}
+	if inpututil.IsKeyJustPressed(ebiten.KeyA) {
+		g.subzira.Subzero.Idling = false
+		g.subzira.Subzero.Moving = false
+		g.subzira.Subzero.MovingBw = true
+	} else if inpututil.IsKeyJustReleased(ebiten.KeyA) {
+		fmt.Println("released")
+		g.subzira.Subzero.Idling = true
+		g.subzira.Subzero.Moving = false
+		g.subzira.Subzero.MovingBw = false
 	}
 }
 func (g *Game) Push2() bool {
@@ -84,6 +105,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 	if g.subzira.Subzero.Moving {
 		err := g.SubzeroMove(screen)
+		if err != nil {
+			panic(err)
+		}
+	}
+	if g.subzira.Subzero.MovingBw {
+		err := g.SubzeroMoveBw(screen)
 		if err != nil {
 			panic(err)
 		}

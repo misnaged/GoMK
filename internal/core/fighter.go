@@ -80,7 +80,26 @@ func (img *Img) LpMoveFw(screen *ebiten.Image) error {
 
 	return nil
 }
+func (img *Img) LpMoveBw(screen *ebiten.Image) error {
+	fighter, err := img.PrepareImg()
+	if err != nil {
+		return fmt.Errorf("error while preparing image %w", err)
+	}
+	var wg sync.WaitGroup
+	img.SubZera = fighter.SubImage(*img.LpPos()).(*ebiten.Image)
+	for range img.animCount {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			defer img.SubZera.Clear()
+			img.DrawOpts.GeoM.Translate(3.0/-float64(len(img.animCount))*1.5, 0)
+			screen.DrawImage(img.SubZera, &img.DrawOpts)
+		}()
+		wg.Wait()
+	}
 
+	return nil
+}
 func (img *Img) RightDirPath() []*image.Point {
 	p1 := &image.Point{
 		X: img.X0 + 1,

@@ -18,7 +18,7 @@ type Img struct {
 	X0, X1, Y0, Y1                   int
 	animCount                        []int
 	mux                              sync.Mutex
-	Idling, Moving, ScreenCast       bool
+	Idling, Moving, MovingBw         bool
 }
 
 // PrepareImg is

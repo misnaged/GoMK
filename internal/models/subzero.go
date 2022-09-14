@@ -59,8 +59,8 @@ func (g *Subzero) SubzeroMvBw(screen *ebiten.Image) error {
 
 	//
 
-	g.Subzero.ImgBytes = sz.SubzeroMove
-	err := g.Subzero.LpMoveFw(screen)
+	g.Subzero.ImgBytes = sz.SubzeroMoveBw
+	err := g.Subzero.LpMoveBw(screen)
 	if err != nil {
 		return fmt.Errorf("error while creating sub-zero %w", err)
 	}
