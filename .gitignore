@@ -1,0 +1,16 @@
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+.idea
+.vscode
+*.env
+*.test
+
+*.out
+
+vendor/
+
+local/
+
