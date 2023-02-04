@@ -18,7 +18,7 @@ var jumpupPics = []string{"sz/jumpup/1.png", "sz/jumpup/2.png", "sz/jumpup/3.png
 
 func (sz *SubZero) Idle() (idle *spriteplus.Animation, err error) {
 	sz.anim.Pathpics = idlepics
-	idle, err = sz.anim.BuildAnimation(43)
+	idle, err = sz.anim.BuildAnimation(70)
 	if err != nil {
 		return nil, fmt.Errorf("animation Idle failed due to: %v", err)
 	}
@@ -29,7 +29,7 @@ func (sz *SubZero) Idle() (idle *spriteplus.Animation, err error) {
 
 func (sz *SubZero) JumpUp() (jumpUp *spriteplus.Animation, err error) {
 	sz.anim.Pathpics = jumpupPics
-	jumpUp, err = sz.anim.BuildAnimation(45)
+	jumpUp, err = sz.anim.BuildAnimation(65)
 	if err != nil {
 		return nil, fmt.Errorf("animation Idle failed due to: %v", err)
 	}
@@ -41,7 +41,7 @@ func (sz *SubZero) JumpUp() (jumpUp *spriteplus.Animation, err error) {
 func (sz *SubZero) HighKick() (hgkick *spriteplus.Animation, err error) {
 	sz.anim.Pathpics = highkickpics
 
-	hgkick, err = sz.anim.BuildAnimation(20)
+	hgkick, err = sz.anim.BuildAnimation(15)
 	if err != nil {
 		return nil, fmt.Errorf("animation HighKick failed due to: %v", err)
 	}
@@ -52,7 +52,7 @@ func (sz *SubZero) HighKick() (hgkick *spriteplus.Animation, err error) {
 func (sz *SubZero) MoveFW() (movefw *spriteplus.Animation, err error) {
 	sz.anim.Pathpics = movefwpics
 
-	movefw, err = sz.anim.BuildAnimation(35)
+	movefw, err = sz.anim.BuildAnimation(40)
 	if err != nil {
 		return nil, fmt.Errorf("animation Move failed due to: %v", err)
 	}
@@ -63,7 +63,7 @@ func (sz *SubZero) MoveFW() (movefw *spriteplus.Animation, err error) {
 func (sz *SubZero) MoveBW() (movebw *spriteplus.Animation, err error) {
 	sz.anim.Pathpics = movebwpics
 
-	movebw, err = sz.anim.BuildAnimation(35)
+	movebw, err = sz.anim.BuildAnimation(40)
 	if err != nil {
 		return nil, fmt.Errorf("animation Move failed due to: %v", err)
 	}
