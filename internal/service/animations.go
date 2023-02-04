@@ -2,8 +2,8 @@ package service
 
 import (
 	"fmt"
-	"github.com/Misnaged/spriteplus"
 	"github.com/faiface/pixel"
+	"github.com/misnaged/spriteplus"
 	"image"
 	"os"
 )
@@ -65,7 +65,7 @@ func (f *Anim) BuildSprites() (sprites []*pixel.Sprite) {
 	return
 }
 
-//LoadPicture load anim with path given
+// LoadPicture load anim with path given
 func LoadPicture(path string) (pixel.Picture, error) {
 	file, err := os.Open(path)
 	if err != nil {
