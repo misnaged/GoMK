@@ -52,8 +52,8 @@ func (img *Img) LpIdle(screen *ebiten.Image) error {
 			screen.DrawImage(subImg, &img.DrawOpts)
 			done1 = true
 		}()
+		wg.Wait()
 	}
-	wg.Wait()
 
 	if inpututil.IsKeyJustPressed(ebiten.KeyShift) {
 		fmt.Println(img.Rect)
@@ -76,8 +76,8 @@ func (img *Img) LpMoveFw(screen *ebiten.Image) error {
 			img.DrawOpts.GeoM.Translate(3.0/float64(len(img.animCount))*1.5, 0)
 			screen.DrawImage(img.SubZera, &img.DrawOpts)
 		}()
+		wg.Wait()
 	}
-	wg.Wait()
 
 	return nil
 }
@@ -96,9 +96,9 @@ func (img *Img) LpMoveBw(screen *ebiten.Image) error {
 			img.DrawOpts.GeoM.Translate(3.0/-float64(len(img.animCount))*1.5, 0)
 			screen.DrawImage(img.SubZera, &img.DrawOpts)
 		}()
-	}
-	wg.Wait()
+		wg.Wait()
 
+	}
 	return nil
 }
 func (img *Img) RightDirPath() []*image.Point {
@@ -114,9 +114,6 @@ func (img *Img) RightDirPath() []*image.Point {
 	return img.Path
 }
 
-// ----- Position ----- //
-
-// GetCurrent is
 func (img *Img) GetCurrent() *image.Rectangle {
 	return &img.Rect
 }
