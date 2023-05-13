@@ -12,18 +12,18 @@ import (
 
 type Game struct {
 	keys    []ebiten.Key
-	subzira models.Subzero
+	subzira *models.SubzeroModel
 	scene   models.Scene
 }
 
+func NewGame() *Game {
+	return &Game{subzira: models.NewSubzeroModel()}
+}
 func (g *Game) Update() error {
 	g.keys = inpututil.AppendPressedKeys(g.keys[:0])
 	g.subzira.Subzero.FramesCount++
 	g.Move()
-	if g.Push2() {
-		g.subzira.Subzero.Moving = false
-		g.subzira.Subzero.Idling = true
-	}
+
 	if g.Push3() {
 		fmt.Println(g.subzira.Subzero.X0, g.subzira.Subzero.X1, g.subzira.Subzero.Y0, g.subzira.Subzero.Y1, g.subzira.Subzero.FrameNum)
 	}
@@ -70,6 +70,7 @@ func (g *Game) Move() {
 		g.subzira.Subzero.Idling = false
 		g.subzira.Subzero.Moving = false
 		g.subzira.Subzero.MovingBw = true
+
 	} else if inpututil.IsKeyJustReleased(ebiten.KeyA) {
 		fmt.Println("released")
 		g.subzira.Subzero.Idling = true
@@ -126,10 +127,11 @@ func main() {
 	// Now the byte slice is generated with //go:generate for Go 1.15 or older.
 	// If you use Go 1.16 or newer, it is strongly recommended to use //go:embed to embed the image file.
 	// See https://pkg.go.dev/embed for more details.
-
+	game := NewGame()
+	game.subzira.Subzero.Idling = true
 	ebiten.SetWindowSize(core.ScreenWidth, core.ScreenHeight)
 	ebiten.SetWindowTitle("Animation (Ebiten Demo)")
-	if err := ebiten.RunGame(&Game{}); err != nil {
+	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}
 }

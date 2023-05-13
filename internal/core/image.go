@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"image"
-	"sync"
 )
 
 type Img struct {
@@ -17,8 +16,11 @@ type Img struct {
 	Path                             []*image.Point
 	X0, X1, Y0, Y1                   int
 	animCount                        []int
-	mux                              sync.Mutex
 	Idling, Moving, MovingBw         bool
+}
+
+func NewImg() *Img {
+	return &Img{}
 }
 
 // PrepareImg is

@@ -7,11 +7,15 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-type Subzero struct {
-	Subzero core.Img
+type SubzeroModel struct {
+	Subzero *core.Img
 }
 
-func (g *Subzero) Init() {
+func NewSubzeroModel() *SubzeroModel {
+	return &SubzeroModel{Subzero: core.NewImg()}
+}
+
+func (g *SubzeroModel) Init() {
 	var (
 		frameOX     = 0
 		frameOY     = 0
@@ -20,7 +24,7 @@ func (g *Subzero) Init() {
 	)
 	g.Subzero.X0, g.Subzero.X1, g.Subzero.Y0, g.Subzero.Y1 = frameOX, frameWidth, frameOY, frameHeight
 }
-func (g *Subzero) SubzeroIdle(screen *ebiten.Image) error {
+func (g *SubzeroModel) SubzeroIdle(screen *ebiten.Image) error {
 	//
 	g.Subzero.FrameNum = 11
 
@@ -36,7 +40,7 @@ func (g *Subzero) SubzeroIdle(screen *ebiten.Image) error {
 	return nil
 }
 
-func (g *Subzero) SubzeroMvFw(screen *ebiten.Image) error {
+func (g *SubzeroModel) SubzeroMvFw(screen *ebiten.Image) error {
 	//
 	g.Subzero.FrameNum = 9
 
@@ -51,7 +55,7 @@ func (g *Subzero) SubzeroMvFw(screen *ebiten.Image) error {
 	}
 	return nil
 }
-func (g *Subzero) SubzeroMvBw(screen *ebiten.Image) error {
+func (g *SubzeroModel) SubzeroMvBw(screen *ebiten.Image) error {
 	//
 	g.Subzero.FrameNum = 9
 
